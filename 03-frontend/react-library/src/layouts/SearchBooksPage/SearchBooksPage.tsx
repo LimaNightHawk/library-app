@@ -3,9 +3,11 @@ import {BookModel} from "../../models/BookModel";
 import {SpinnerLoading} from "../Utils/SpinnerLoading";
 import {SearchBook} from "./components/SearchBook";
 import {Pagination} from "../Utils/Pagination";
+import {API_BOOKS_URL} from "../../constants";
 
 export const SearchBooksPage = () => {
-    const booksUrl = "http://localhost:8080/api/books";
+
+    const booksUrl = API_BOOKS_URL;
 
     const [books, setBooks] = useState<BookModel[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -21,7 +23,7 @@ export const SearchBooksPage = () => {
     useEffect(() => {
 
         const fetchBooks = async () => {
-            //const booksUrl = "http://35.196.186.50/api/books";
+
             let url = '';
             if (searchUrl === '') {
                 url = booksUrl + `?page=${currentPage - 1}&size=${booksPerPage}`;

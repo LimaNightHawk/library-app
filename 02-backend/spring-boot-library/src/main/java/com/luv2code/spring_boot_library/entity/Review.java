@@ -3,7 +3,6 @@ package com.luv2code.spring_boot_library.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.Instant;
 
 @Data
@@ -23,7 +22,7 @@ public class Review {
     private Instant date;
 
     @Column(name = "rating", precision = 3, scale = 2)
-    private BigDecimal rating;
+    private double rating;
 
     @Column(name = "book_id")
     private Long bookId;
