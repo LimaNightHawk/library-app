@@ -1,9 +1,10 @@
 package com.luv2code.spring_boot_library.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.Instant;
+import java.util.Date;
 
 @Data
 @Entity
@@ -19,9 +20,10 @@ public class Review {
     private String userEmail;
 
     @Column(name = "date")
-    private Instant date;
+    @CreationTimestamp
+    private Date date;
 
-    @Column(name = "rating", precision = 3, scale = 2)
+    @Column(name = "rating")
     private double rating;
 
     @Column(name = "book_id")

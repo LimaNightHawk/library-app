@@ -3,11 +3,11 @@ import {BookModel} from "../../models/BookModel";
 import {SpinnerLoading} from "../Utils/SpinnerLoading";
 import {SearchBook} from "./components/SearchBook";
 import {Pagination} from "../Utils/Pagination";
-import {API_BOOKS_URL} from "../../constants";
+import {API_URL} from "../../constants";
 
 export const SearchBooksPage = () => {
 
-    const booksUrl = API_BOOKS_URL;
+    const booksUrl = API_URL + '/books';
 
     const [books, setBooks] = useState<BookModel[]>([]);
     const [isLoading, setIsLoading] = useState(true);
