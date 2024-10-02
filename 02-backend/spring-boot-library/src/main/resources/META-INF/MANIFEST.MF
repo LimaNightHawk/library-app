@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: com.luv2code.spring_boot_library.SpringBootLibraryApplicatio
+ n
+

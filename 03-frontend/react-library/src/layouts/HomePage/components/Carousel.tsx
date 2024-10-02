@@ -1,7 +1,65 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {ReturnBook} from "./ReturnBook";
+import {BookModel} from "../../../models/BookModel";
+import {SpinnerLoading} from "../../Utils/SpinnerLoading";
+import {Link} from "react-router-dom";
 
 export const Carousel = () => {
+
+
+    const [books, setBooks] = useState<BookModel[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [httpError, setHttpError] = useState(null);
+
+    useEffect(() => {
+
+        const fetchBooks = async () => {
+            const booksUrl = "http://localhost:8080/api/books";
+            //const booksUrl = "http://35.196.186.50/api/books";
+            const url = booksUrl + "?page=0&size=9";
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error("Something went wrong!");
+            }
+
+            const responseJson = await response.json();
+            const responseBooks: BookModel[] = responseJson._embedded.books;
+            const loadedBooks: BookModel[] = responseBooks.map((book: BookModel) => {
+                return new BookModel(
+                    book.id,
+                    book.title,
+                    book.author,
+                    book.description,
+                    book.copies,
+                    book.copiesAvailable,
+                    book.category,
+                    book.img
+                );
+            });
+            setBooks(loadedBooks);
+            setIsLoading(false);
+        };
+        fetchBooks().catch((error: any) => {
+            setIsLoading(false);
+            setHttpError(error.message);
+        });
+
+
+    }, []);
+
+    if (isLoading) {
+        return (
+            <SpinnerLoading/>
+        );
+    }
+    if (httpError) {
+        return (
+            <div className='container mt-5'>
+                <p>{httpError}</p>
+            </div>
+        );
+    }
+
     return (
         <div className='container mt-5' style={{height: 550}}>
             <div className='homepage-carousel-title'>
@@ -13,23 +71,25 @@ export const Carousel = () => {
                 <div className='carousel-inner'>
                     <div className='carousel-item active'>
                         <div className='row d-flex justify-content-center align-items-center'>
-                            <ReturnBook/>
-                            <ReturnBook/>
-                            <ReturnBook/>
+
+                            {books.slice(0, 3).map(book => (
+                                <ReturnBook book={book} key={book.id}/>
+                            ))}
+
                         </div>
                     </div>
                     <div className='carousel-item'>
                         <div className='row d-flex justify-content-center align-items-center'>
-                            <ReturnBook/>
-                            <ReturnBook/>
-                            <ReturnBook/>
+                            {books.slice(3, 6).map(book => (
+                                <ReturnBook book={book} key={book.id}/>
+                            ))}
                         </div>
                     </div>
                     <div className='carousel-item'>
                         <div className='row d-flex justify-content-center align-items-center'>
-                            <ReturnBook/>
-                            <ReturnBook/>
-                            <ReturnBook/>
+                            {books.slice(6, 9).map(book => (
+                                <ReturnBook book={book} key={book.id}/>
+                            ))}
                         </div>
                     </div>
                     <button className='carousel-control-prev' type='button'
@@ -48,12 +108,12 @@ export const Carousel = () => {
             {/* Mobile */}
             <div className='d-lg-none mt-3'>
                 <div className='row d-flex justify-content-center align-items-center'>
-                    <ReturnBook/>
+                    <ReturnBook book={books[0]} key={books[0].id}/>
                 </div>
             </div>
             <div className='homepage-carousel-title mt-3'>
-                <a className='btn btn-outline-secondary btn-lg' href='#'>View More</a>
+                <Link className='btn btn-outline-secondary btn-lg' to='/search'>View More</Link>
             </div>
         </div>
     );
-};
+}

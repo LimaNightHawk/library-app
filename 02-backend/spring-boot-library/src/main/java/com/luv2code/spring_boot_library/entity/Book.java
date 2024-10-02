@@ -3,9 +3,9 @@ package com.luv2code.spring_boot_library.entity;
 import lombok.Data;
 import javax.persistence.*;
 
+@Data
 @Entity
 @Table(name = "book")
-@Data
 public class Book {
 
     @Id

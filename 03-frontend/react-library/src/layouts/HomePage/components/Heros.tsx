@@ -72,4 +72,4 @@ export const Heros = () => {
             </div>
         </div>
     );
-};
+}

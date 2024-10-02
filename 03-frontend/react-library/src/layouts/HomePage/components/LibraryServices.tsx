@@ -20,4 +20,4 @@ export const LibraryServices = () => {
             </div>
         </div>
     );
-};
+}
