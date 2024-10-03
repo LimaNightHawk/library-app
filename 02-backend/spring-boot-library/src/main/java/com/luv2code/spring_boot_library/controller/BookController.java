@@ -2,6 +2,7 @@ package com.luv2code.spring_boot_library.controller;
 
 import com.luv2code.spring_boot_library.entity.Book;
 import com.luv2code.spring_boot_library.service.BookService;
+import com.luv2code.spring_boot_library.utils.JwtParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/books")
 public class BookController {
 
-    public static final String TEST_MAIL = "testuser@email.com";
     private BookService bookService;
 
     @Autowired
@@ -20,27 +20,38 @@ public class BookController {
     }
 
     @PutMapping("/secure/checkout")
-    public Book checkoutBook(@RequestParam Long bookId) throws Exception {
+    public Book checkoutBook(@RequestHeader("Authorization") String token, @RequestParam Long bookId) throws Exception {
 
-        return bookService.checkoutBook(TEST_MAIL, bookId);
+        String userEmail = getUserEmailFromToken(token);
+        return bookService.checkoutBook(userEmail, bookId);
     }
 
     @GetMapping(value = "/secure/isCheckedout")
-    public Boolean isCheckedout(@RequestParam Long bookId) {
+    public Boolean isCheckedout(@RequestHeader("Authorization") String token, @RequestParam Long bookId) {
 
-        return bookService.isBookCheckedoutByUser(TEST_MAIL, bookId);
+        String userEmail = getUserEmailFromToken(token);
+        return bookService.isBookCheckedoutByUser(userEmail, bookId);
     }
 
     @GetMapping(value = "/secure/checkouts")
-    public int getCheckoutCount() {
+    public int getCheckoutCount(@RequestHeader("Authorization") String token) {
 
-        return bookService.getCheckoutsForUser(TEST_MAIL);
+        System.out.println(token);
+        String userEmail = getUserEmailFromToken(token);
+        return bookService.getCheckoutsForUser(userEmail);
     }
 
     @DeleteMapping(value = "/secure/checkin")
-    public Boolean getCheckouts(@RequestParam Long bookId) throws Exception {
+    public Boolean getCheckouts(@RequestHeader("Authorization") String token, @RequestParam Long bookId) throws Exception {
 
-        bookService.checkinBook(TEST_MAIL, bookId);
+        String userEmail = getUserEmailFromToken(token);
+        bookService.checkinBook(userEmail, bookId);
         return true;
+    }
+
+    private String getUserEmailFromToken(String token) {
+
+        JwtParser jwtParser = new JwtParser(token);
+        return (String) jwtParser.getPayloadMap().get("sub");
     }
 }
