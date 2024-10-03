@@ -52,6 +52,6 @@ public class BookController {
     private String getUserEmailFromToken(String token) {
 
         JwtParser jwtParser = new JwtParser(token);
-        return (String) jwtParser.getPayloadMap().get("sub");
+        return jwtParser.getUserEmailFromToken();
     }
 }

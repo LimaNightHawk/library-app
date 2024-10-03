@@ -4,6 +4,7 @@ import com.luv2code.spring_boot_library.dao.BookRepository;
 import com.luv2code.spring_boot_library.dao.CheckoutRepository;
 import com.luv2code.spring_boot_library.entity.Book;
 import com.luv2code.spring_boot_library.entity.Checkout;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ public class BookService {
     private BookRepository bookRepository;
     private CheckoutRepository checkoutRepository;
 
+    @Autowired
     public BookService(BookRepository bookRepository, CheckoutRepository checkoutRepository) {
 
         this.bookRepository = bookRepository;

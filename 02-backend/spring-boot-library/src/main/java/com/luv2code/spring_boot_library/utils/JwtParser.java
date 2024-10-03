@@ -38,4 +38,10 @@ public class JwtParser {
             throw new RuntimeException(e);
         }
     }
+
+    public String getUserEmailFromToken() {
+
+        return (String) payloadMap.get("sub");
+    }
+
 }
