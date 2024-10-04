@@ -12,7 +12,7 @@ import java.util.List;
 @CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/api/books")
-public class BookController {
+public class BookController extends AbstractAuthorizationController{
 
     private BookService bookService;
 
@@ -23,14 +23,14 @@ public class BookController {
     }
 
     @PutMapping("/secure/checkout")
-    public Book checkoutBook(@RequestHeader("Authorization") String token, @RequestParam Long bookId) throws Exception {
+    public Book checkoutBook(@RequestParam Long bookId, @RequestHeader("Authorization") String token) throws Exception {
 
         String userEmail = getUserEmailFromToken(token);
         return bookService.checkoutBook(userEmail, bookId);
     }
 
     @GetMapping(value = "/secure/isCheckedout")
-    public Boolean isCheckedout(@RequestHeader("Authorization") String token, @RequestParam Long bookId) {
+    public Boolean isCheckedout(@RequestParam Long bookId, @RequestHeader("Authorization") String token) {
 
         String userEmail = getUserEmailFromToken(token);
         return bookService.isBookCheckedoutByUser(userEmail, bookId);
@@ -45,18 +45,13 @@ public class BookController {
     }
 
     @DeleteMapping(value = "/secure/checkin")
-    public Boolean getCheckouts(@RequestHeader("Authorization") String token, @RequestParam Long bookId) throws Exception {
+    public Boolean getCheckouts(@RequestParam Long bookId, @RequestHeader("Authorization") String token) throws Exception {
 
         String userEmail = getUserEmailFromToken(token);
         bookService.checkinBook(userEmail, bookId);
         return true;
     }
 
-    private String getUserEmailFromToken(String token) {
-
-        JwtParser jwtParser = new JwtParser(token);
-        return jwtParser.getUserEmailFromToken();
-    }
 
     @GetMapping("/secure/currentloans")
     public List<ShelfCurrentLoansResponse> currentLoans(@RequestHeader("Authorization") String token) throws Exception {
@@ -66,14 +61,14 @@ public class BookController {
     }
 
     @PutMapping("/secure/checkin")
-    public void returnBook(@RequestHeader("Authorization") String token, @RequestParam Long bookId) throws Exception {
+    public void returnBook(@RequestParam Long bookId, @RequestHeader("Authorization") String token) throws Exception {
 
         String userEmail = getUserEmailFromToken(token);
         bookService.returnBook(userEmail, bookId);
     }
 
     @PutMapping("/secure/renew")
-    public void renewBook(@RequestHeader("Authorization") String token, @RequestParam Long bookId) throws Exception {
+    public void renewBook(@RequestParam Long bookId, @RequestHeader("Authorization") String token) throws Exception {
 
         String userEmail = getUserEmailFromToken(token);
         bookService.renewLoan(userEmail, bookId);

@@ -2,14 +2,13 @@ package com.luv2code.spring_boot_library.controller;
 
 import com.luv2code.spring_boot_library.requestmodels.ReviewRequest;
 import com.luv2code.spring_boot_library.service.ReviewService;
-import com.luv2code.spring_boot_library.utils.JwtParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/api/reviews")
-public class ReviewController {
+public class ReviewController extends AbstractAuthorizationController {
 
     private final ReviewService reviewService;
 
@@ -37,11 +36,5 @@ public class ReviewController {
             throw new Exception("User email cannot be null");
         }
         reviewService.postReview(userEmail, reviewRequest);
-    }
-
-    private String getUserEmailFromToken(String token) {
-
-        JwtParser jwtParser = new JwtParser(token);
-        return jwtParser.getUserEmailFromToken();
     }
 }
