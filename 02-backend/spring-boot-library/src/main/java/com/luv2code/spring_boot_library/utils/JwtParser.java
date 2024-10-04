@@ -44,4 +44,9 @@ public class JwtParser {
         return (String) payloadMap.get("sub");
     }
 
+    public String getUserType() {
+
+        return (String) payloadMap.get("userType");
+    }
+
 }

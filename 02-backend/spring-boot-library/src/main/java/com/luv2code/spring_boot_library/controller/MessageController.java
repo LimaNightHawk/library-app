@@ -1,6 +1,7 @@
 package com.luv2code.spring_boot_library.controller;
 
 import com.luv2code.spring_boot_library.entity.Message;
+import com.luv2code.spring_boot_library.requestmodels.AdminQuestionRequest;
 import com.luv2code.spring_boot_library.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,4 +25,13 @@ public class MessageController extends AbstractAuthorizationController {
         String userEmail = getUserEmailFromToken(token);
         messageService.createMessage(message, userEmail);
     }
+
+    @PutMapping("/secure/admin/message")
+    public void addMessage(@RequestBody AdminQuestionRequest request, @RequestHeader("Authorization") String token) throws Exception {
+
+        String userEmail = getUserEmailFromToken(token);
+        assertAdminUser(token);
+        messageService.answerQuestion(request, userEmail);
+    }
+
 }
