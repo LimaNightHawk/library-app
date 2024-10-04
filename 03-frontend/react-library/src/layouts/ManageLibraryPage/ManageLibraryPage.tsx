@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {useOktaAuth} from "@okta/okta-react";
 import {Redirect} from "react-router-dom";
 import {AdminMessages} from "./components/AdminMessages";
+import {AddNewBook} from "./components/AddNewBook";
+import {ChangeQuantityOfBooks} from "./components/ChangeQuantityOfBooks";
 
 export const ManageLibraryPage: React.FC<{}> = () => {
 
@@ -13,16 +15,18 @@ export const ManageLibraryPage: React.FC<{}> = () => {
         setChangeQuantityOfBooksClick(false);
         setMessagesClick(false);
     }
+
     function changeQuantityOfBooksClickFunction() {
         setChangeQuantityOfBooksClick(true);
         setMessagesClick(false);
     }
+
     function messagesClickFunction() {
         setChangeQuantityOfBooksClick(false);
         setMessagesClick(true);
     }
 
-    if (authState?.accessToken?.claims.userType === undefined){
+    if (authState?.accessToken?.claims.userType === undefined) {
         return <Redirect to='/home'/>
     }
 
@@ -53,12 +57,11 @@ export const ManageLibraryPage: React.FC<{}> = () => {
                     </div>
                 </nav>
                 <div className='tab-content' id='nav-tabContent'>
-                    <div className='tab-pane fade show active' id='nav-add-book' role='tabpanel'
-                         aria-labelledby='nav-add-book-tab'>
-                        Add new book
+                    <div className='tab-pane fade show active' id='nav-add-book' role='tabpanel' aria-labelledby='nav-add-book-tab'>
+                        <AddNewBook/>
                     </div>
                     <div className='tab-pane fade' id='nav-quantity' role='tabpanel' aria-labelledby='nav-quantity-tab'>
-                        {changeQuantityOfBooksClick ? <>Change Quantity</> : <></>}
+                        {changeQuantityOfBooksClick ? <ChangeQuantityOfBooks/> : <></>}
                     </div>
                     <div className='tab-pane fade' id='nav-messages' role='tabpanel' aria-labelledby='nav-messages-tab'>
                         {messagesClick ? <AdminMessages/> : <></>}

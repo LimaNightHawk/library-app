@@ -23,7 +23,7 @@ public abstract class AbstractAuthorizationController {
 
         String userType = getUserType(token);
         if (!ADMIN_ROLE.equals(userType)) {
-            throw new Exception("Administrators only");
+            throw new Exception("Administration page only");
         }
     }
 
