@@ -1,10 +1,13 @@
 package com.luv2code.spring_boot_library.controller;
 
 import com.luv2code.spring_boot_library.entity.Book;
+import com.luv2code.spring_boot_library.responsemodels.ShelfCurrentLoansResponse;
 import com.luv2code.spring_boot_library.service.BookService;
 import com.luv2code.spring_boot_library.utils.JwtParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -53,5 +56,26 @@ public class BookController {
 
         JwtParser jwtParser = new JwtParser(token);
         return jwtParser.getUserEmailFromToken();
+    }
+
+    @GetMapping("/secure/currentloans")
+    public List<ShelfCurrentLoansResponse> currentLoans(@RequestHeader("Authorization") String token) throws Exception {
+
+        String userEmail = getUserEmailFromToken(token);
+        return bookService.currentLoans(userEmail);
+    }
+
+    @PutMapping("/secure/checkin")
+    public void returnBook(@RequestHeader("Authorization") String token, @RequestParam Long bookId) throws Exception {
+
+        String userEmail = getUserEmailFromToken(token);
+        bookService.returnBook(userEmail, bookId);
+    }
+
+    @PutMapping("/secure/renew")
+    public void renewBook(@RequestHeader("Authorization") String token, @RequestParam Long bookId) throws Exception {
+
+        String userEmail = getUserEmailFromToken(token);
+        bookService.renewLoan(userEmail, bookId);
     }
 }
