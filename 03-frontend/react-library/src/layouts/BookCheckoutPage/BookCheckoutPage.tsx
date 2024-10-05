@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {BookModel} from "../../models/BookModel";
-import {API_URL} from "../../constants";
 import {SpinnerLoading} from "../Utils/SpinnerLoading";
 import {StarsReview} from "../Utils/StarsReview";
 import {CheckoutAndReview} from "./CheckoutAndReview";
@@ -37,7 +36,7 @@ export const BookCheckoutPage = () => {
 
             const fetchBook = async () => {
 
-                const url = API_URL + `/books/${bookId}`;
+                const url = `${process.env.REACT_APP_API}/books/${bookId}`;
                 const response = await fetch(url);
                 if (!response.ok) {
                     throw new Error('Something went wrong.');
@@ -64,7 +63,7 @@ export const BookCheckoutPage = () => {
 
         useEffect(() => {
             const fetchBookReivews = async () => {
-                const url = API_URL + `/reviews/search/findByBookId?bookId=${bookId}&page=0&size=5';`
+                const url = `${process.env.REACT_APP_API}/reviews/search/findByBookId?bookId=${bookId}&page=0&size=5';`
                 const response = await fetch(url);
                 if (!response.ok) {
                     throw new Error("Something went wrong.");
@@ -101,7 +100,7 @@ export const BookCheckoutPage = () => {
     useEffect(() => {
         const fetchUserReviewBook = async () => {
             if (authState && authState.isAuthenticated) {
-                const url = API_URL + '/reviews/secure?bookId=' + bookId;
+                const url = `${process.env.REACT_APP_API}/reviews/secure?bookId=${bookId}`;
                 const requestOptions = {
                     method: 'GET',
                     headers: {
@@ -128,7 +127,7 @@ export const BookCheckoutPage = () => {
     useEffect(() => {
         const fetchUserCurrentLoans = async () => {
             if (authState && authState.isAuthenticated) {
-                const url = API_URL + '/books/secure/checkouts';
+                const url = `${process.env.REACT_APP_API}/books/secure/checkouts`;
                 const requestOptions = {
                     method: 'GET',
                     headers: {
@@ -157,7 +156,7 @@ export const BookCheckoutPage = () => {
 
             if (authState && authState.isAuthenticated) {
 
-                const url = API_URL + '/books/secure/isCheckedout?bookId=' + bookId;
+                const url = `${process.env.REACT_APP_API}/books/secure/isCheckedout?bookId=${bookId}`;
                 const requestOptions = {
                     method: 'GET',
                     headers: {
@@ -198,7 +197,7 @@ export const BookCheckoutPage = () => {
         }
 
     async function checkoutBook() {
-        const url = API_URL + '/books/secure/checkout?bookId=' + bookId;
+        const url = `${process.env.REACT_APP_API}/books/secure/checkout?bookId=${bookId}`;
         const requestOptions = {
             method: 'PUT',
             headers: {
@@ -224,7 +223,7 @@ export const BookCheckoutPage = () => {
             reviewDescription
         );
 
-        const url = API_URL + '/reviews/secure';
+        const url = `${process.env.REACT_APP_API}/reviews/secure`;
         const requestOptions = {
             method: 'POST',
             headers: {

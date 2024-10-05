@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {useOktaAuth} from "@okta/okta-react";
-import {API_URL} from "../../../constants";
 import {HistoryModel} from "../../../models/HistoryModel";
 import {SpinnerLoading} from "../../Utils/SpinnerLoading";
 import {Pagination} from "../../Utils/Pagination";
@@ -22,7 +21,7 @@ export const HistoryPage: React.FC<{}> = () => {
     useEffect(() => {
         const fetchUserHistories = async () => {
             if (authState && authState.isAuthenticated) {
-                const url = API_URL + `/histories/search/findHistoryByUserEmail?userEmail=${authState.accessToken?.claims.sub}&page=${currentPage - 1}&size=5`;
+                const url = `${process.env.REACT_APP_API}/histories/search/findHistoryByUserEmail?userEmail=${authState.accessToken?.claims.sub}&page=${currentPage - 1}&size=5`;
                 const requestOptions = {
                     method: 'GET',
                     headers: {

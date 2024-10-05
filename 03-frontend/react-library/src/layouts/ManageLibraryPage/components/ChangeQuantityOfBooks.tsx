@@ -1,4 +1,3 @@
-import {API_URL} from "../../../constants";
 import React, {useEffect, useState} from "react";
 import {BookModel} from "../../../models/BookModel";
 import {SpinnerLoading} from "../../Utils/SpinnerLoading";
@@ -22,7 +21,7 @@ export const ChangeQuantityOfBooks:React.FC<{}> = () => {
     useEffect(() => {
 
         const fetchBooks = async () => {
-            const baseUrl = API_URL + `/books?page=${currentPage - 1}&size=${booksPerPage}`;
+            const baseUrl = `${process.env.REACT_APP_API}/books?page=${currentPage - 1}&size=${booksPerPage}`;
 
             const response = await fetch(baseUrl);
             if (!response.ok) {

@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useOktaAuth} from "@okta/okta-react";
 import {MessageModel} from "../../../models/MessagesModel";
-import {API_URL} from "../../../constants";
 import {SpinnerLoading} from "../../Utils/SpinnerLoading";
 import {Pagination} from "../../Utils/Pagination";
 import {AdminMessage} from "./AdminMessage";
@@ -30,7 +29,7 @@ export const AdminMessages: React.FC<{}> = () => {
     useEffect(() => {
         const fetchMessages = async () => {
             if (authState && authState.isAuthenticated) {
-                const url = API_URL + `/messages/search/findByClosed?closed=false&page=${currentPage - 1}&size=${messagesPerPage}`;
+                const url = `${process.env.REACT_APP_API}/messages/search/findByClosed?closed=false&page=${currentPage - 1}&size=${messagesPerPage}`;
                 const requestOptions = {
                     method: 'GET',
                     headers: {
@@ -71,7 +70,7 @@ export const AdminMessages: React.FC<{}> = () => {
     async function submitResponseToQuestion(id: number, answer: string) {
 
         if (authState?.isAuthenticated && id !== null && answer !== '') {
-            const url = API_URL + `/messages/secure/admin/message`;
+            const url = `${process.env.REACT_APP_API}/messages/secure/admin/message`;
             const messageAdminRequestModel: AdminMessageRequest = new AdminMessageRequest(id, answer);
             const requestOptions = {
                 method: 'PUT',

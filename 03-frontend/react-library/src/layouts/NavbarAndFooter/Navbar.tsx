@@ -57,11 +57,13 @@ export const Navbar = () => {
                                         Messages
                                     </NavLink>
                                 </li>
-                                <li className='nav-item'>
-                                    <NavLink to='/admin' className='nav-link'>
-                                        Manage Library
-                                    </NavLink>
-                                </li>
+                                {authState.accessToken?.claims?.userType == 'admin' &&
+                                    <li className='nav-item'>
+                                        <NavLink to='/admin' className='nav-link'>
+                                            Admin
+                                        </NavLink>
+                                    </li>
+                                }
                             </>
                         }
                     </ul>

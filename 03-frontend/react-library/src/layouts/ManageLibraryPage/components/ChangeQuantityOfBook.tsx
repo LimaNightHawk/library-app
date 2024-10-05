@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {useOktaAuth} from "@okta/okta-react";
-import {API_URL} from "../../../constants";
-import {Simulate} from "react-dom/test-utils";
 import {SpinnerLoading} from "../../Utils/SpinnerLoading";
 import {BookModel} from "../../../models/BookModel";
 
@@ -27,7 +25,7 @@ export const ChangeQuantityOfBook: React.FC<{ book: BookModel, deleteBook: any }
         const newRemaining = remaining + increase;
         if (authState && authState.isAuthenticated && newQuantity >= 0 && newRemaining >= 0) {
 
-            const url = API_URL + `/admin/secure/book/quantity?bookId=${props.book.id}&quantity=${increase}`;
+            const url = `${process.env.REACT_APP_API}/admin/secure/book/quantity?bookId=${props.book.id}&quantity=${increase}`;
             const requestOptions = {
                 method: 'PUT',
                 headers: {
@@ -47,7 +45,7 @@ export const ChangeQuantityOfBook: React.FC<{ book: BookModel, deleteBook: any }
     async function deleteBook() {
         if (authState && authState.isAuthenticated) {
 
-            const url = API_URL + `/admin/secure/delete/book?bookId=${props.book.id}`;
+            const url = `${process.env.REACT_APP_API}/admin/secure/delete/book?bookId=${props.book.id}`;
             const requestOptions = {
                 method: 'DELETE',
                 headers: {

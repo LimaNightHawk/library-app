@@ -1,7 +1,6 @@
 import {useState} from "react";
 import {useOktaAuth} from "@okta/okta-react";
 import {AddBookRequest} from "../../../models/AddBookRequest";
-import {API_URL} from "../../../constants";
 
 export const AddNewBook: React.FC<{  }> = () => {
 
@@ -40,7 +39,7 @@ export const AddNewBook: React.FC<{  }> = () => {
     async function submitNewBook() {
 
         if (authState?.isAuthenticated && title != '' && author != '' && description != '' && copies > 0 && category != 'Category' && img != null) {
-            const url = API_URL + `/admin/secure/add/book`;
+            const url = `${process.env.REACT_APP_API}/admin/secure/add/book`;
 
             const addBookRequest = new AddBookRequest(title, author, description, copies, category, img);
             const requestOptions = {

@@ -1,6 +1,5 @@
 import {useOktaAuth} from "@okta/okta-react";
 import {useState} from "react";
-import {API_URL} from "../../../constants";
 
 export const PostNewMessage: React.FC<{}> = () => {
 
@@ -12,7 +11,7 @@ export const PostNewMessage: React.FC<{}> = () => {
 
     async function submitNewQuestion() {
         if (authState?.isAuthenticated && title !== '' && question !== '') {
-            const url = API_URL + `/messages/secure/message`;
+            const url = `${process.env.REACT_APP_API}/messages/secure/message`;
 
             const requestOptions = {
                 method: 'POST',
